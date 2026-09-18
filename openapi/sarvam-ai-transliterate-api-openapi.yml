@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Sarvam AI Chat Transliterate API
+  title: Sarvam AI Transliterate API
   description: REST API for Sarvam AI, India's full-stack sovereign AI platform. Provides chat completions over Sarvam's Indic LLMs, speech-to-text and speech-to-text-translate, text-to-speech, text translation, transliteration, and language identification across Indian languages. All requests authenticate with an api-subscription-key header.
   termsOfService: https://www.sarvam.ai/terms-of-service
   contact:
@@ -39,6 +39,19 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid api-subscription-key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     Error:
       type: object
@@ -50,15 +63,6 @@ components:
               type: string
             code:
               type: string
-    TransliterateResponse:
-      type: object
-      properties:
-        request_id:
-          type: string
-        transliterated_text:
-          type: string
-        source_language_code:
-          type: string
     TransliterateRequest:
       type: object
       required:
@@ -87,19 +91,15 @@ components:
           - english
           - native
           default: native
-  responses:
-    Unauthorized:
-      description: Missing or invalid api-subscription-key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: Rate limit exceeded.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    TransliterateResponse:
+      type: object
+      properties:
+        request_id:
+          type: string
+        transliterated_text:
+          type: string
+        source_language_code:
+          type: string
   securitySchemes:
     ApiSubscriptionKey:
       type: apiKey

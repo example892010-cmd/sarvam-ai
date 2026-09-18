@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Sarvam AI Chat Speech to Text API
+  title: Sarvam AI Speech to Text API
   description: REST API for Sarvam AI, India's full-stack sovereign AI platform. Provides chat completions over Sarvam's Indic LLMs, speech-to-text and speech-to-text-translate, text-to-speech, text translation, transliteration, and language identification across Indian languages. All requests authenticate with an api-subscription-key header.
   termsOfService: https://www.sarvam.ai/terms-of-service
   contact:
@@ -12,13 +12,13 @@ servers:
 security:
 - ApiSubscriptionKey: []
 tags:
-- name: Speech to Text
+- name: Speech To Text
 paths:
   /speech-to-text:
     post:
       operationId: transcribeSpeech
       tags:
-      - Speech to Text
+      - Speech To Text
       summary: Transcribe audio to text
       description: Transcribes an audio file in an Indian language using the Saaras or Saarika speech-recognition models. Supports auto language detection, word-level timestamps, and speaker diarization.
       requestBody:
@@ -42,7 +42,7 @@ paths:
     post:
       operationId: translateSpeech
       tags:
-      - Speech to Text
+      - Speech To Text
       summary: Transcribe and translate audio to English
       description: Transcribes Indic-language audio and translates the result into English in a single request using the Saaras family of models.
       requestBody:
@@ -63,7 +63,30 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid api-subscription-key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            code:
+              type: string
     SpeechToTextTranslateRequest:
       type: object
       required:
@@ -82,16 +105,6 @@ components:
         prompt:
           type: string
           description: Optional context to improve translation quality.
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-            code:
-              type: string
     SpeechToTextRequest:
       type: object
       required:
@@ -143,19 +156,6 @@ components:
         diarized_transcript:
           type: object
           description: Speaker-attributed segments when diarization is enabled.
-  responses:
-    Unauthorized:
-      description: Missing or invalid api-subscription-key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: Rate limit exceeded.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiSubscriptionKey:
       type: apiKey

@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Sarvam AI Chat Text to Speech API
+  title: Sarvam AI Text to Speech API
   description: REST API for Sarvam AI, India's full-stack sovereign AI platform. Provides chat completions over Sarvam's Indic LLMs, speech-to-text and speech-to-text-translate, text-to-speech, text translation, transliteration, and language identification across Indian languages. All requests authenticate with an api-subscription-key header.
   termsOfService: https://www.sarvam.ai/terms-of-service
   contact:
@@ -12,13 +12,13 @@ servers:
 security:
 - ApiSubscriptionKey: []
 tags:
-- name: Text to Speech
+- name: Text To Speech
 paths:
   /text-to-speech:
     post:
       operationId: convertTextToSpeech
       tags:
-      - Text to Speech
+      - Text To Speech
       summary: Convert text to speech
       description: Synthesizes natural speech for Indian languages using the Bulbul models (v2, v3) with 30+ speakers and configurable pace, pitch, sample rate, and output audio codec. Returns base64-encoded audio.
       requestBody:

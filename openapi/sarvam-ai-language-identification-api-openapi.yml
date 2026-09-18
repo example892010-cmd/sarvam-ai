@@ -1,6 +1,6 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: Sarvam AI Chat Language Identification API
+  title: Sarvam AI Language Identification API
   description: REST API for Sarvam AI, India's full-stack sovereign AI platform. Provides chat completions over Sarvam's Indic LLMs, speech-to-text and speech-to-text-translate, text-to-speech, text translation, transliteration, and language identification across Indian languages. All requests authenticate with an api-subscription-key header.
   termsOfService: https://www.sarvam.ai/terms-of-service
   contact:
@@ -40,6 +40,13 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
 components:
   schemas:
+    LanguageIdRequest:
+      type: object
+      required:
+      - input
+      properties:
+        input:
+          type: string
     Error:
       type: object
       properties:
@@ -58,13 +65,6 @@ components:
         language_code:
           type: string
         script_code:
-          type: string
-    LanguageIdRequest:
-      type: object
-      required:
-      - input
-      properties:
-        input:
           type: string
   responses:
     Unauthorized:
